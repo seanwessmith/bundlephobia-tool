@@ -1,0 +1,44 @@
+{
+  "name": "bundlephobia-cli",
+  "version": "1.0.0",
+  "description": "cli tool to analyze npm packages with bundlephobia",
+  "main": "dist/index.js",
+  "bin": {
+    "bp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "bun run build.ts && tsc",
+    "start": "node dist/index.js",
+    "prepublishOnly": "bun run build && tsc",
+    "publish": "npm publish --access public",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "cli",
+    "tool",
+    "bundlephobia",
+    "npm",
+    "package-size",
+    "dependencies",
+    "command-line"
+  ],
+  "author": "Sean Smith <seanwessmith@gmail.com> (https://github.com/seanwessmith/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanwessmith/bundlephobia-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seanwessmith/bundlephobia-tool/issues"
+  },
+  "homepage": "https://github.com/seanwessmith/bundlephobia-tool#readme",
+  "dependencies": {
+    "inquirer": "^11.1.0",
+    "ora": "^8.1.0",
+    "picocolors": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.11.1"
+  },
+  "type": "module"
+}
