@@ -19,7 +19,7 @@ const args = process.argv.slice(2); // Get all arguments after the script name
   if (args.length === 0) {
     // No arguments provided
     spinner.info(
-      "bundlephobia-cli" +
+      "bundlephobia-tool" +
         "\nbp open " +
         pc.gray("view package size of latest open version") +
         "\nbp colors --info " +

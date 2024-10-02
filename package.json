@@ -1,6 +1,6 @@
 {
-  "name": "bundlephobia-cli",
-  "version": "1.0.0",
+  "name": "bundlephobia-tool",
+  "version": "1.0.4",
   "description": "cli tool to analyze npm packages with bundlephobia",
   "main": "dist/index.js",
   "bin": {
@@ -9,8 +9,9 @@
   "scripts": {
     "build": "bun run build.ts && tsc",
     "start": "node dist/index.js",
-    "prepublishOnly": "bun run build && tsc",
+    "prepublish": "bun run build",
     "publish": "npm publish --access public",
+    "postpublish": "echo 'Publish successful!'",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "keywords": [
@@ -26,7 +27,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seanwessmith/bundlephobia-tool.git"
+    "url": "git+https://github.com/seanwessmith/bundlephobia-tool.git"
   },
   "bugs": {
     "url": "https://github.com/seanwessmith/bundlephobia-tool/issues"
