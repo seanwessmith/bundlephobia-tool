@@ -1,6 +1,6 @@
 {
   "name": "bundlephobia-tool",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "cli tool to analyze npm packages with bundlephobia",
   "main": "dist/index.js",
   "bin": {

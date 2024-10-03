@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import ora from "ora";
+import ora, { Ora } from "ora";
 import pc from "picocolors";
 import controller from "./controller.ts";
 import { promises as fs } from "fs"; // Import fs to read package.json
@@ -10,7 +10,7 @@ import pkg from "../package.json";
 const args = process.argv.slice(2); // Get all arguments after the script name
 
 (async () => {
-  const spinner = ora(`starting service`).start();
+  let spinner: Ora;
 
   // Default values
   let input = null;
@@ -18,6 +18,7 @@ const args = process.argv.slice(2); // Get all arguments after the script name
 
   // Parse command-line arguments
   if (args.length === 0) {
+    spinner = ora().start();
     // No arguments provided
     spinner.info(
       "bundlephobia-tool" +
@@ -46,7 +47,7 @@ const args = process.argv.slice(2); // Get all arguments after the script name
     flag = args[1];
   }
 
-  if (input === "--version" || input === "-v") {
+  if (flag === "--version" || flag === "-v") {
     console.log(pc.gray(pkg.version));
     process.exit(0);
   } else if (
@@ -55,6 +56,7 @@ const args = process.argv.slice(2); // Get all arguments after the script name
     input === "--package.json" ||
     input === "-j"
   ) {
+    spinner = ora(`starting service`).start();
     try {
       // Read package.json file
       const packageJsonContent = await fs.readFile("package.json", "utf-8");
@@ -94,6 +96,8 @@ const args = process.argv.slice(2); // Get all arguments after the script name
     }
     return;
   }
+
+  spinner = ora(`starting service`).start();
 
   // If no input is provided, but there's a flag
   if (!input) {
