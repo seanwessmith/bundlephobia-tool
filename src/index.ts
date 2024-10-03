@@ -53,7 +53,7 @@ const args = process.argv.slice(2); // Get all arguments after the script name
       const packageJsonContent = await fs.readFile("package.json", "utf-8");
       const packageData = JSON.parse(packageJsonContent);
       // Get list of dependencies
-      const dependencies = Object.keys(packageData.dependencies || {});
+      const dependencies = Object.keys(packageData.dependencies || {}).filter(dep => !dep.startsWith('@'));
       if (dependencies.length === 0) {
         return spinner.fail("No dependencies found in package.json");
       }
