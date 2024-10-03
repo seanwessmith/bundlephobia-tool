@@ -1,6 +1,6 @@
 {
   "name": "bundlephobia-tool",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "cli tool to analyze npm packages with bundlephobia",
   "main": "dist/index.js",
   "bin": {
@@ -10,7 +10,6 @@
     "build": "bun run build.ts && tsc",
     "start": "node dist/index.js",
     "prepublish": "bun run build",
-    "publish": "npm publish --access public",
     "postpublish": "echo 'Publish successful!'",
     "test": "echo \"No tests specified\" && exit 0"
   },

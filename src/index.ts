@@ -58,7 +58,6 @@ const args = process.argv.slice(2); // Get all arguments after the script name
         : Object.keys(packageData.dependencies || {}).filter(
             (dep) => !dep.startsWith("@types")
           );
-      console.log(rawDependencies);
       dependencies.push(
         ...rawDependencies.filter((dep) => !dep.startsWith("@types"))
       );
