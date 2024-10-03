@@ -5,6 +5,7 @@ import pc from "picocolors";
 import controller from "./controller.ts";
 import { promises as fs } from "fs"; // Import fs to read package.json
 import { basic } from "./callbacks.ts";
+import pkg from "../package.json";
 
 const args = process.argv.slice(2); // Get all arguments after the script name
 
@@ -27,7 +28,9 @@ const args = process.argv.slice(2); // Get all arguments after the script name
         "\nbp orb --dependencies " +
         pc.gray("list all dependencies of the orb package") +
         "\nbp --package.json " +
-        pc.gray("view sizes of all packages in package.json")
+        pc.gray("view sizes of all packages in package.json") +
+        "\nbp --version " +
+        pc.gray("view the current version of the tool")
     );
     process.exit(0);
   } else if (args.length === 1) {
@@ -43,17 +46,23 @@ const args = process.argv.slice(2); // Get all arguments after the script name
     flag = args[1];
   }
 
-  // Handle the --package.json flag when it's in the input variable
-  if (
-    (flag === "--package.json" || flag === "-j") ||
-    (input === "--package.json" || input === "-j")
+  if (input === "--version" || input === "-v") {
+    console.log(pc.gray(pkg.version));
+    process.exit(0);
+  } else if (
+    flag === "--package.json" ||
+    flag === "-j" ||
+    input === "--package.json" ||
+    input === "-j"
   ) {
     try {
       // Read package.json file
       const packageJsonContent = await fs.readFile("package.json", "utf-8");
       const packageData = JSON.parse(packageJsonContent);
       // Get list of dependencies
-      const dependencies = Object.keys(packageData.dependencies || {}).filter(dep => !dep.startsWith('@'));
+      const dependencies = Object.keys(packageData.dependencies || {}).filter(
+        (dep) => !dep.startsWith("@")
+      );
       if (dependencies.length === 0) {
         return spinner.fail("No dependencies found in package.json");
       }
