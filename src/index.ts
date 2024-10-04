@@ -4,7 +4,7 @@ import ora, { Ora } from "ora";
 import pc from "picocolors";
 import controller from "./controller.ts";
 import { promises as fs } from "fs"; // Import fs to read package.json
-import { basic, PackageJson } from "./callbacks.ts";
+import { basic, convert, PackageJson } from "./callbacks.ts";
 import pkg from "../package.json";
 
 const args = process.argv.slice(2); // Get all arguments after the script name
@@ -65,28 +65,48 @@ const args = process.argv.slice(2); // Get all arguments after the script name
         return spinner.fail("No dependencies found in package.json");
       }
       spinner.text = `Fetching data for ${dependencies.length} packages in package.json`;
-      // Fetch data for all dependencies concurrently
+      interface Result {
+        dep: string;
+        data?: BpTool.PackageInfo;
+        error: boolean;
+      }
       const results = await Promise.all(
         dependencies.map(async (dep) => {
           const res = await fetch(
             `https://bundlephobia.com/api/size?package=${dep}`
           );
           if (!res.ok) {
-            return { dep, error: true };
+            return { dep, error: true } as Result;
           }
           const data = await res.json();
-          return { dep, data };
+          return { dep, data } as Result;
         })
       );
       spinner.succeed("Fetched data for packages in package.json");
       // Process results
+      const fails: string[] = [];
       results.forEach((result) => {
         if (result.error) {
-          console.log(`${result.dep}: Failed to fetch data`);
-        } else {
-          basic(spinner, result.data);
+          fails.push(result.dep);
+        } else if ((result as any).data) {
+          basic(spinner, (result as any).data);
         }
       });
+      for (const fail of fails) {
+        console.log(`${fail}: No data found`);
+      }
+      const sum = results.reduce(
+        (acc, cur) => (cur.data?.size ? acc + cur.data.size : acc),
+        0
+      );
+      const zip = convert(sum);
+      const regular = convert(sum);
+      console.log("");
+      spinner.succeed(
+        `${pc.green(results.length - fails.length)} packages analyzed ${pc.gray(
+          `[${regular.mb} MB minified, ${zip.mb} gzipped]`
+        )}`
+      );
     } catch (err) {
       spinner.fail("Failed to read package.json");
       process.exit(1);

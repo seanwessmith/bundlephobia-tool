@@ -7,7 +7,7 @@ interface Size {
   mb: string;
 }
 
-const convert = (size: number) => ({
+export const convert = (size: number) => ({
   kb: calculate(size, 1),
   mb: calculate(size, 2),
 });
