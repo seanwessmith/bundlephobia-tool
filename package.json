@@ -1,44 +1,28 @@
 {
   "name": "bundlephobia-tool",
-  "version": "1.0.11",
-  "description": "cli tool to analyze npm packages with bundlephobia",
-  "main": "dist/index.js",
+  "version": "1.1.0",
+  "module": "src/cli.ts",
+  "type": "module",
   "bin": {
-    "bp": "dist/index.js"
+    "pkg-size": "./dist/cli.js"
   },
-  "scripts": {
-    "build": "bun run build.ts && tsc",
-    "start": "node dist/index.js",
-    "prepublish": "bun run build",
-    "postpublish": "echo 'Publish successful!'",
-    "test": "echo \"No tests specified\" && exit 0"
-  },
-  "keywords": [
-    "cli",
-    "tool",
-    "bundlephobia",
-    "npm",
-    "package-size",
-    "dependencies",
-    "command-line"
+  "files": [
+    "dist"
   ],
-  "author": "Sean Smith <seanwessmith@gmail.com> (https://github.com/seanwessmith/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/seanwessmith/bundlephobia-tool.git"
+  "scripts": {
+    "build": "bun build ./src/cli.ts --outdir ./dist --target node",
+    "start": "bun run src/cli.ts",
+    "prepublishOnly": "bun run build"
   },
-  "bugs": {
-    "url": "https://github.com/seanwessmith/bundlephobia-tool/issues"
-  },
-  "homepage": "https://github.com/seanwessmith/bundlephobia-tool#readme",
   "dependencies": {
-    "inquirer": "^11.1.0",
-    "ora": "^8.1.0",
-    "picocolors": "^1.1.0"
+    "ora": "^8.2.0",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "open": "^10.1.0",
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "^9.11.1"
-  },
-  "type": "module"
+    "@types/node": "^22.13.10",
+    "bun-types": "1.2.5"
+  }
 }
