@@ -232,6 +232,35 @@ Large dependencies can significantly impact your application's:
 
 This tool helps you make informed decisions about which packages to include in your project.
 
+## 🚀 Deployment
+
+### Publishing to npm
+
+```bash
+# Build the project
+bun run build
+
+# Bump version (patch, minor, or major)
+npm version patch
+
+# Publish to npm
+npm publish
+
+# Or publish with Bun
+bun publish
+```
+
+### GitHub Release
+
+1. Push your changes and tags:
+```bash
+git push origin main --tags
+```
+
+2. Create a GitHub release with the new version tag
+
+3. The package will be automatically available on npm after publishing
+
 ## 🛠️ Development
 
 Want to contribute or run locally? Here's how to get started:
