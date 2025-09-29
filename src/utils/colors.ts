@@ -8,9 +8,9 @@ export const warning = (text: string): string =>
 export const error = (text: string): string =>
   color("#FF79C6", "ansi-256") + text + "\x1b[0m";
 export const info = (text: string): string =>
-  color("#282A36", "ansi-256") + text + "\x1b[0m";
+  color("#8BE9FD", "ansi-256") + text + "\x1b[0m";
 export const dim = (text: string): string =>
-  color("#282A36", "ansi-256") + text + "\x1b[0m";
+  color("#6272A4", "ansi-256") + text + "\x1b[0m";
 export const bold = (text: string): string =>
   color("#F8F8F2", "ansi-256") + text + "\x1b[0m";
 export const bullet = (text: string): string => `${warning("•")} ${text}`;

@@ -1,6 +1,6 @@
 # 📦 Bundlephobia Tool
 
-[![npm version](https://img.shields.io/npm/v/package-size-analyzer.svg)](https://www.npmjs.com/package/package-size-analyzer)
+[![npm version](https://img.shields.io/npm/v/bundlephobia-tool.svg)](https://www.npmjs.com/package/bundlephobia-tool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Powered by Bun](https://img.shields.io/badge/powered%20by-Bun-orange)](https://bun.sh)
 
@@ -19,15 +19,21 @@ A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia AP
 - 🌐 **Convenient**: Open packages directly in your browser for more details
 - 🎨 **Beautiful**: Color-coded output for better visualization
 - 📱 **Simple API**: Intuitive commands make it easy to use
+- 🔄 **Resilient**: Automatic retry logic with 10s timeout and exponential backoff
+
+## 📋 Prerequisites
+
+- Node.js 18+ or Bun 1.0+
+- Internet connection (for API access)
 
 ## 🔧 Installation
 
 ```bash
 # Install globally
-npm install -g package-size-analyzer
+npm install -g bundlephobia-tool
 
 # Or with Bun
-bun install -g package-size-analyzer
+bun install -g bundlephobia-tool
 ```
 
 ## 🚀 Quick Start
@@ -185,7 +191,7 @@ Options:
 - `-i, --info` - Show detailed package information
 - `-d, --dependencies` - Show package dependencies
 - `-s, --similar` - Show similar packages
-- `-h, --history` - Show version history
+- `--history` - Show version history
 
 ### `open`
 
@@ -221,6 +227,13 @@ Bundlephobia tool uses the Bundlephobia API to fetch accurate package size data.
 - **Dependencies**: All dependencies of the package and their sizes
 - **Version history**: Size changes across different versions
 - **Similar packages**: Alternative packages that provide similar functionality
+
+### Reliability Features
+
+- **Timeout Protection**: All API requests timeout after 10 seconds
+- **Automatic Retries**: Failed requests are retried up to 2 times with exponential backoff
+- **Rate Limit Handling**: Automatically retries on 429 (rate limit) responses
+- **Error Recovery**: Gracefully handles 5xx server errors with retry logic
 
 ## 💡 Why Package Size Matters
 
@@ -267,8 +280,8 @@ Want to contribute or run locally? Here's how to get started:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/package-size-analyzer.git
-cd package-size-analyzer
+git clone https://github.com/seanwessmith/bundlephobia-tool.git
+cd bundlephobia-tool
 
 # Install dependencies
 bun install
@@ -282,6 +295,34 @@ bun link
 # Run the CLI
 pkg-size analyze react
 ```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"Failed to fetch" errors**
+- The tool includes automatic retry logic with exponential backoff
+- Requests timeout after 10 seconds and retry up to 2 times
+- Check your internet connection if errors persist
+
+**Rate Limiting**
+- Bundlephobia API may rate limit requests
+- The tool automatically handles 429 responses with retry logic
+- Use smaller batch sizes when analyzing many packages
+
+**Package not found**
+- Verify the package name is correct on npmjs.com
+- Some packages may not be available in the Bundlephobia database
+- Try specifying a version: `pkg-size analyze package@1.0.0`
+
+**Installation issues**
+- Ensure Node.js 18+ or Bun 1.0+ is installed
+- Try clearing npm cache: `npm cache clean --force`
+- For Bun: `bun pm cache rm`
+
+### Reporting Issues
+
+Found a bug? Have a feature request? Please [open an issue](https://github.com/seanwessmith/bundlephobia-tool/issues) on GitHub.
 
 ## 📝 License
 

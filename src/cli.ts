@@ -1,6 +1,5 @@
 #!/usr/bin/env bun
 import { Command } from "commander";
-import ora from "ora";
 import { version } from "../package.json";
 import { analyze, analyzeDependencies, openPackage } from "./commands";
 import { displayHelp } from "./utils/display";
@@ -25,7 +24,7 @@ program
   .option("-i, --info", "Show detailed package information")
   .option("-d, --dependencies", "Show package dependencies")
   .option("-s, --similar", "Show similar packages")
-  .option("-h, --history", "Show version history")
+  .option("--history", "Show version history")
   .action(async (pkg, options) => {
     await analyze(pkg, options);
   });

@@ -1,3 +1,7 @@
+// API configuration
+const API_TIMEOUT = 10000; // 10 seconds
+const MAX_RETRIES = 2;
+
 // Define API types
 export interface PackageSize {
   name: string;
@@ -45,12 +49,50 @@ export interface SimilarPackage {
 }
 
 /**
+ * Fetch with timeout and retry logic
+ */
+async function fetchWithRetry(
+  url: string,
+  retries = MAX_RETRIES
+): Promise<Response> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (!response.ok && attempt < retries) {
+        // Retry on 5xx errors or 429 (rate limit)
+        if (response.status >= 500 || response.status === 429) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, 1000 * (attempt + 1))
+          );
+          continue;
+        }
+      }
+
+      return response;
+    } catch (error) {
+      if (attempt === retries) {
+        throw error;
+      }
+      // Wait before retry with exponential backoff
+      await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
+  }
+
+  throw new Error("Max retries exceeded");
+}
+
+/**
  * Fetch package size data from bundlephobia API
  */
 export async function fetchPackageSize(
   packageName: string
 ): Promise<PackageSize> {
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `https://bundlephobia.com/api/size?package=${packageName}`
   );
 
@@ -70,7 +112,7 @@ export async function fetchPackageInfo(
   packageName: string
 ): Promise<PackageInfo> {
   const encodedName = encodeURIComponent(packageName);
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `https://ofcncog2cu-dsn.algolia.net/1/indexes/npm-search/${encodedName}?x-algolia-application-id=OFCNCOG2CU&x-algolia-api-key=f54e21fa3a2a0160595bb058179bfb1e`
   );
 
@@ -89,7 +131,7 @@ export async function fetchPackageInfo(
 export async function fetchSimilarPackages(
   packageName: string
 ): Promise<SimilarPackage[]> {
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `https://bundlephobia.com/api/similar-packages?package=${packageName}`
   );
 
@@ -109,7 +151,7 @@ export async function fetchSimilarPackages(
 export async function fetchPackageHistory(
   packageName: string
 ): Promise<PackageHistory[]> {
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `https://bundlephobia.com/api/package-history?package=${packageName}`
   );
 

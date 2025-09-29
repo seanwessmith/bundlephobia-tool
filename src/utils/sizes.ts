@@ -40,8 +40,8 @@ export function getSizeColor(
 ): "success" | "warning" | "error" {
   const mbNumber = typeof mb === "string" ? parseFloat(mb) : mb;
 
-  if (mbNumber < 0.1) return "success";
-  if (mbNumber < 0.5) return "warning";
+  if (mbNumber < 0.5) return "success";
+  if (mbNumber < 1) return "warning";
   return "error";
 }
 

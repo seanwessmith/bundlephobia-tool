@@ -1,27 +1,52 @@
 {
   "name": "bundlephobia-tool",
-  "version": "1.1.2",
+  "version": "1.2.0",
+  "description": "A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia API",
+  "author": "seanwessmith",
+  "license": "MIT",
+  "keywords": [
+    "bundlephobia",
+    "package-size",
+    "bundle-size",
+    "npm",
+    "analyzer",
+    "cli",
+    "dependencies",
+    "performance",
+    "optimization",
+    "bun"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seanwessmith/bundlephobia-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seanwessmith/bundlephobia-tool/issues"
+  },
+  "homepage": "https://github.com/seanwessmith/bundlephobia-tool#readme",
   "module": "src/cli.ts",
   "type": "module",
   "bin": {
     "pkg-size": "./dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
     "build": "bun build ./src/cli.ts --outdir ./dist --target bun",
     "start": "bun run src/cli.ts",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build && npm version minor"
   },
   "dependencies": {
-    "ora": "^8.2.0",
-    "chalk": "^5.5.0",
-    "commander": "^14.0.0",
+    "ora": "^9.0.0",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.1",
     "open": "^10.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
-    "bun-types": "1.2.20"
+    "@types/node": "^24.6.0",
+    "bun-types": "1.2.23"
   }
 }
