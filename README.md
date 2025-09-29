@@ -1,10 +1,13 @@
 # 📦 Bundlephobia Tool
 
 [![npm version](https://img.shields.io/npm/v/bundlephobia-tool.svg)](https://www.npmjs.com/package/bundlephobia-tool)
+[![npm downloads](https://img.shields.io/npm/dm/bundlephobia-tool.svg)](https://www.npmjs.com/package/bundlephobia-tool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Powered by Bun](https://img.shields.io/badge/powered%20by-Bun-orange)](https://bun.sh)
 
 A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia API. Make informed decisions about your dependencies by understanding their impact on your bundle size.
+
+> **Save bandwidth, improve performance, and keep your bundles lean** 🚀
 
 <div align="center">
   <p><i>Know your dependencies, optimize your bundles</i></p>
@@ -48,6 +51,26 @@ pkg-size deps
 # Open a package in the browser
 pkg-size open lodash
 ```
+
+## 🎯 Real-World Examples
+
+Compare popular packages to find lighter alternatives:
+
+```bash
+# React vs Preact
+pkg-size analyze react         # 45.7 kB gzipped
+pkg-size analyze preact        # 4.3 kB gzipped (10x smaller!)
+
+# Moment vs date-fns
+pkg-size analyze moment        # 72.4 kB gzipped
+pkg-size analyze date-fns      # 12.2 kB gzipped (6x smaller!)
+
+# Lodash vs es-toolkit
+pkg-size analyze lodash        # 69.9 kB gzipped
+pkg-size analyze es-toolkit    # 14.7 kB gzipped (5x smaller!)
+```
+
+**Pro tip**: Always check package size before adding a new dependency!
 
 ## 📊 Usage Examples
 
