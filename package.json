@@ -37,7 +37,7 @@
   "scripts": {
     "build": "bun build ./src/cli.ts --outdir ./dist --target bun",
     "start": "bun run src/cli.ts",
-    "prepublishOnly": "bun run build && npm version minor"
+    "prepublishOnly": "git add . && git commit -m 'chore: update package.json' && bun run build && npm version patch"
   },
   "dependencies": {
     "ora": "^9.0.0",
