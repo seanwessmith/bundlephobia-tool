@@ -15,19 +15,13 @@ A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia AP
 
 ## ✨ Features
 
-- 🚀 **Fast**: Powered by Bun's runtime for lightning-fast performance
 - 📊 **Comprehensive**: Analyze size, dependencies, history, and more
-- 🔍 **Detailed**: Get minified and gzipped sizes with visual indicators
 - 📦 **Dependencies**: Scan your project's package.json to analyze all dependencies
 - 🌐 **Convenient**: Open packages directly in your browser for more details
-- 🎨 **Beautiful**: Color-coded output for better visualization
-- 📱 **Simple API**: Intuitive commands make it easy to use
-- 🔄 **Resilient**: Automatic retry logic with 10s timeout and exponential backoff
 
 ## 📋 Prerequisites
 
-- Node.js 18+ or Bun 1.0+
-- Internet connection (for API access)
+- Node.js 18+
 
 ## 🔧 Installation
 
@@ -52,27 +46,7 @@ pkg-size deps
 pkg-size open lodash
 ```
 
-## 🎯 Real-World Examples
-
-Compare popular packages to find lighter alternatives:
-
-```bash
-# React vs Preact
-pkg-size analyze react         # 45.7 kB gzipped
-pkg-size analyze preact        # 4.3 kB gzipped (10x smaller!)
-
-# Moment vs date-fns
-pkg-size analyze moment        # 72.4 kB gzipped
-pkg-size analyze date-fns      # 12.2 kB gzipped (6x smaller!)
-
-# Lodash vs es-toolkit
-pkg-size analyze lodash        # 69.9 kB gzipped
-pkg-size analyze es-toolkit    # 14.7 kB gzipped (5x smaller!)
-```
-
-**Pro tip**: Always check package size before adding a new dependency!
-
-## 📊 Usage Examples
+## 📊 Examples
 
 ### Analyze a single package
 
@@ -241,23 +215,6 @@ Options:
 - `-v, --version` - Output the current version
 - `-h, --help` - Display help for command
 
-## 🔄 How It Works
-
-Bundlephobia tool uses the Bundlephobia API to fetch accurate package size data. The tool retrieves and displays:
-
-- **Minified size**: The size of the package after minification
-- **Gzipped size**: The size after gzip compression (what you'd actually transfer over the network)
-- **Dependencies**: All dependencies of the package and their sizes
-- **Version history**: Size changes across different versions
-- **Similar packages**: Alternative packages that provide similar functionality
-
-### Reliability Features
-
-- **Timeout Protection**: All API requests timeout after 10 seconds
-- **Automatic Retries**: Failed requests are retried up to 2 times with exponential backoff
-- **Rate Limit Handling**: Automatically retries on 429 (rate limit) responses
-- **Error Recovery**: Gracefully handles 5xx server errors with retry logic
-
 ## 💡 Why Package Size Matters
 
 Large dependencies can significantly impact your application's:
@@ -267,57 +224,6 @@ Large dependencies can significantly impact your application's:
 - **Mobile performance**: Particularly important for users on slower connections
 
 This tool helps you make informed decisions about which packages to include in your project.
-
-## 🚀 Deployment
-
-### Publishing to npm
-
-```bash
-# Build the project
-bun run build
-
-# Bump version (patch, minor, or major)
-npm version patch
-
-# Publish to npm
-npm publish
-
-# Or publish with Bun
-bun publish
-```
-
-### GitHub Release
-
-1. Push your changes and tags:
-```bash
-git push origin main --tags
-```
-
-2. Create a GitHub release with the new version tag
-
-3. The package will be automatically available on npm after publishing
-
-## 🛠️ Development
-
-Want to contribute or run locally? Here's how to get started:
-
-```bash
-# Clone the repository
-git clone https://github.com/seanwessmith/bundlephobia-tool.git
-cd bundlephobia-tool
-
-# Install dependencies
-bun install
-
-# Build the project
-bun run build
-
-# Link for local development
-bun link
-
-# Run the CLI
-pkg-size analyze react
-```
 
 ## 🔧 Troubleshooting
 
@@ -339,7 +245,7 @@ pkg-size analyze react
 - Try specifying a version: `pkg-size analyze package@1.0.0`
 
 **Installation issues**
-- Ensure Node.js 18+ or Bun 1.0+ is installed
+- Ensure Node.js 18+
 - Try clearing npm cache: `npm cache clean --force`
 - For Bun: `bun pm cache rm`
 
