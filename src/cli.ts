@@ -1,8 +1,7 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 import { Command } from "commander";
 import { version } from "../package.json";
 import { analyze, analyzeDependencies, openPackage } from "./commands";
-import { displayHelp } from "./utils/display";
 
 const program = new Command();
 
@@ -48,12 +47,15 @@ program
     await analyzeDependencies(options);
   });
 
-// Default command when no arguments are provided
-program.action(() => {
+async function main(): Promise<void> {
   if (process.argv.length <= 2) {
-    displayHelp();
+    program.outputHelp();
+    return;
   }
-});
 
-// Parse and execute
-program.parse();
+  await program.parseAsync(process.argv);
+}
+
+await main().catch(() => {
+  process.exitCode = 1;
+});

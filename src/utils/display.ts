@@ -11,7 +11,7 @@ import { formatSizeValues, getSizeColor } from "./sizes";
  * Display basic package size information
  */
 export function displayBasicInfo(pkg: PackageSize): void {
-  if (!pkg || !pkg.size) {
+  if (!pkg || !Number.isFinite(pkg.size)) {
     console.log("No size data available");
     return;
   }
@@ -62,7 +62,10 @@ export function displayBasicInfo(pkg: PackageSize): void {
 /**
  * Display detailed package information
  */
-export function displayDetailedInfo(pkg: PackageInfo): void {
+export function displayDetailedInfo(
+  pkg: PackageInfo,
+  sizeData?: PackageSize
+): void {
   if (!pkg) {
     console.log("No package information available");
     return;
@@ -74,28 +77,32 @@ export function displayDetailedInfo(pkg: PackageInfo): void {
     console.log(`\n${pkg.description}`);
   }
 
+  if (sizeData) {
+    const minified = formatSizeValues(sizeData.size);
+    const gzipped = formatSizeValues(sizeData.gzip);
+
+    console.log(
+      "\n" +
+        bullet(
+          `${dim("Bundle size:")} ${success(minified.pretty)} ${dim(
+            "minified"
+          )}, ${success(gzipped.pretty)} ${dim("gzipped")}`
+        )
+    );
+  }
+
   console.log("\n" + bullet(`${dim("License:")} ${pkg.license || "Unknown"}`));
 
   if (pkg.deprecated) {
     console.log(bullet(`${error("DEPRECATED")}`));
   }
 
-  if (pkg.humanDownloadsLast30Days) {
+  if (pkg.downloadsLast30Days) {
     console.log(
       bullet(
         `${dim("Downloads:")} ${info(
-          pkg.humanDownloadsLast30Days.toLocaleString()
+          pkg.downloadsLast30Days.toLocaleString()
         )} ${dim("(last 30 days)")}`
-      )
-    );
-  }
-
-  if (pkg.dependents) {
-    console.log(
-      bullet(
-        `${dim("Used by:")} ${info(pkg.dependents.toLocaleString())} ${dim(
-          "packages"
-        )}`
       )
     );
   }
@@ -103,6 +110,10 @@ export function displayDetailedInfo(pkg: PackageInfo): void {
   const depCount = pkg.dependencies ? Object.keys(pkg.dependencies).length : 0;
   if (depCount > 0) {
     console.log(bullet(`${dim("Dependencies:")} ${info(String(depCount))}`));
+  }
+
+  if (pkg.types) {
+    console.log(bullet(`${dim("Types:")} ${pkg.types}`));
   }
 
   if (pkg.keywords && pkg.keywords.length > 0) {
@@ -121,6 +132,14 @@ export function displayDetailedInfo(pkg: PackageInfo): void {
         `${dim("Maintainers:")} ${pkg.owners.map((o) => o.name).join(", ")}`
       )
     );
+  }
+
+  if (pkg.homepage) {
+    console.log(bullet(`${dim("Homepage:")} ${pkg.homepage}`));
+  }
+
+  if (pkg.repository) {
+    console.log(bullet(`${dim("Repository:")} ${pkg.repository}`));
   }
 }
 
@@ -166,9 +185,8 @@ export function displaySimilar(packages: SimilarPackage[]): void {
   console.log(`\n${bold("Similar packages:")}`);
 
   for (const pkg of packages) {
-    console.log(
-      `\n${bullet(bold(pkg.name))} ${dim(`v${pkg.version || "latest"}`)}`
-    );
+    const versionLabel = pkg.version ? ` ${dim(`v${pkg.version}`)}` : "";
+    console.log(`\n${bullet(bold(pkg.name))}${versionLabel}`);
 
     if (pkg.description) {
       console.log(`  ${pkg.description}`);
@@ -214,12 +232,9 @@ export function displayHistory(
 
   console.log(`\n${bold(packageName)} ${dim("version history:")}`);
 
-  // Sort by version (assuming semantic versioning)
-  const sortedHistory = [...history].sort((a, b) => {
-    const aVer = a.version.replace(/[^\d.]/g, "");
-    const bVer = b.version.replace(/[^\d.]/g, "");
-    return bVer.localeCompare(aVer, undefined, { numeric: true });
-  });
+  const sortedHistory = [...history].sort((a, b) =>
+    b.version.localeCompare(a.version, undefined, { numeric: true })
+  );
 
   for (const version of sortedHistory) {
     const minified = formatSizeValues(version.size);
@@ -248,45 +263,4 @@ export function displayHistory(
       }`
     );
   }
-}
-
-/**
- * Display help information
- */
-export function displayHelp(): void {
-  console.log(`
-  ${bold("Package Size Analyzer")} - ${dim(
-    "Analyze npm package sizes using bundlephobia"
-  )}
-  
-  ${bold("Usage:")}
-    ${dim("$")} ${info("pkg-size")} ${success("analyze")} ${warning(
-    "<package>"
-  )}
-    ${dim("$")} ${info("pkg-size")} ${success("open")} ${warning("<package>")}
-    ${dim("$")} ${info("pkg-size")} ${success("deps")} ${warning("[options]")}
-  
-  ${bold("Commands:")}
-    ${success("analyze")} ${warning(
-    "<package>"
-  )}    Analyze a single package size
-    ${success("open")} ${warning("<package>")}       Open package in browser
-    ${success("deps")}                   Analyze dependencies in package.json
-  
-  ${bold("Options:")}
-    ${dim("-v, --version")}         Output the version number
-    ${dim("-h, --help")}            Display help for command
-    ${dim("-r, --raw")}             Display raw data
-    ${dim("-i, --info")}            Show detailed package information
-    ${dim("-d, --dependencies")}    Show package dependencies
-    ${dim("-s, --similar")}         Show similar packages
-    ${dim("-h, --history")}         Show version history
-    
-  ${bold("Examples:")}
-    ${dim("$")} ${info("pkg-size")} ${success("analyze")} ${warning("react")}
-    ${dim("$")} ${info("pkg-size")} ${success("analyze")} ${warning(
-    "lodash@4.17.21 --info"
-  )}
-    ${dim("$")} ${info("pkg-size")} ${success("deps")} ${warning("--all")}
-  `);
 }

@@ -1,33 +1,44 @@
 {
   "name": "bundlephobia-tool",
-  "version": "1.3.5",
-  "description": "A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia API",
+  "version": "1.3.6",
+  "description": "CLI to check npm package bundle size, gzip size, dependency weight, similar packages, and package.json dependencies with Bundlephobia",
   "author": "seanwessmith",
   "license": "MIT",
   "keywords": [
     "bundlephobia",
+    "bundlephobia-cli",
     "package-size",
     "bundle-size",
+    "gzip-size",
     "npm",
+    "npm-package-size",
+    "dependency-size",
+    "package-json",
     "analyzer",
     "cli",
     "dependencies",
     "performance",
     "optimization",
-    "bun"
+    "frontend",
+    "bundle-analyzer",
+    "bun",
+    "node"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/seanwessmith/bundlephobia-tool.git"
+    "url": "git+https://github.com/seanwessmith/bundlephobia-tool.git"
   },
   "bugs": {
     "url": "https://github.com/seanwessmith/bundlephobia-tool/issues"
   },
   "homepage": "https://github.com/seanwessmith/bundlephobia-tool#readme",
-  "module": "src/cli.ts",
   "type": "module",
+  "engines": {
+    "node": ">=20",
+    "bun": ">=1.0.0"
+  },
   "bin": {
-    "pkg-size": "./dist/cli.js"
+    "pkg-size": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -35,9 +46,10 @@
     "README.md"
   ],
   "scripts": {
-    "build": "bun build ./src/cli.ts --outdir ./dist --target bun",
+    "build": "bun build ./src/cli.ts --outfile ./dist/cli.js --target node",
     "start": "bun run src/cli.ts",
-    "prepublishOnly": "bun run build"
+    "test": "bun test",
+    "prepublishOnly": "bun test && bun run build"
   },
   "dependencies": {
     "ora": "^9.0.0",

@@ -1,205 +1,304 @@
-# 📦 Bundlephobia Tool
+# Bundlephobia Tool
 
 [![npm version](https://img.shields.io/npm/v/bundlephobia-tool.svg)](https://www.npmjs.com/package/bundlephobia-tool)
 [![npm downloads](https://img.shields.io/npm/dm/bundlephobia-tool.svg)](https://www.npmjs.com/package/bundlephobia-tool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Powered by Bun](https://img.shields.io/badge/powered%20by-Bun-orange)](https://bun.sh)
 
-A lightning-fast CLI tool to analyze npm package sizes using the Bundlephobia API. Make informed decisions about your dependencies by understanding their impact on your bundle size.
+`bundlephobia-tool` is a CLI for checking npm package bundle size, gzip size, dependency weight, version history, and similar packages from the terminal.
 
-> **Save bandwidth, improve performance, and keep your bundles lean** 🚀
+If you have ever searched for:
 
-<div align="center">
-  <p><i>Know your dependencies, optimize your bundles</i></p>
-  <br>
-  <img src="https://via.placeholder.com/600x400?text=Demo+GIF+Placeholder" alt="Bundlephobia Tool Demo" width="600">
-  <br>
-</div>
+- `bundlephobia cli`
+- `npm package size checker`
+- `how to check bundle size of a package from terminal`
+- `analyze package.json dependencies by size`
 
-## 📑 Table of Contents
+this is the tool for that job.
 
-- [Features](#-features)
-- [Why use this?](#-why-use-this)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Examples](#-examples)
-- [Command Reference](#-command-reference)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
+## Why This Exists
 
-## ✨ Features
+[Bundlephobia](https://bundlephobia.com) is excellent, but opening a browser tab for every package breaks flow. This CLI keeps the same idea inside the terminal so you can evaluate dependencies while coding, reviewing a pull request, or guiding an AI agent through a repo.
 
-- 📊 **Comprehensive**: Analyze size, dependencies, history, and more
-- 📦 **Dependencies**: Scan your project's package.json to analyze all dependencies
-- 🌐 **Convenient**: Open packages directly in your browser for more details
-- ⚡ **Fast**: Built with Bun for lightning-fast performance
-- 🛡️ **Reliable**: Automatic retry logic for API stability
+It is useful for:
 
-## 💡 Why use this?
+- Frontend engineers comparing packages before adding a dependency
+- Library maintainers watching bundle cost over time
+- PR reviewers looking for unexpectedly heavy packages
+- CI scripts that should fail when analysis fails
+- LLM and agent workflows that need a simple terminal-native package size check
 
-While [bundlephobia.com](https://bundlephobia.com) is amazing, switching context to a browser can break your flow. **bundlephobia-tool** brings that power directly to your terminal.
+## What It Does
 
-- **Stay in the Terminal**: Check sizes without leaving your code.
-- **CI/CD Integration**: Use it in your build pipelines to prevent bloat.
-- **Local Analysis**: Scan your `package.json` to find the heaviest dependencies in your specific project.
-- **Version Comparison**: Easily compare different versions to see if an upgrade is worth the weight.
-- **Performance Matters**: Keep bundles lean to improve load time, execution speed, and mobile experience.
+- Analyze a single npm package with minified and gzipped size
+- Show richer package metadata like license, downloads, homepage, and repository
+- List similar packages using Bundlephobia's recommendations
+- Show recent analyzed version history for a package
+- Scan a local `package.json` and rank dependencies by size
+- Retry transient API failures and use safer batching to reduce rate limits
 
-## 📋 Prerequisites
+## Installation
 
-- Node.js 18+
+Runtime support:
 
-## 🔧 Installation
+- Node.js 20+
+- Bun 1+
+
+Install globally:
 
 ```bash
-# Install globally
 npm install -g bundlephobia-tool
+```
 
-# Or with Bun
+or:
+
+```bash
 bun install -g bundlephobia-tool
 ```
 
-## 🚀 Quick Start
+Or run it without installing:
 
 ```bash
-# Analyze a package
+npx bundlephobia-tool analyze react
+```
+
+The installed command is:
+
+```bash
+pkg-size
+```
+
+## Quick Start
+
+Check one package:
+
+```bash
 pkg-size analyze react
-
-# Check your project dependencies
-pkg-size deps
-
-# Open a package in the browser
-pkg-size open lodash
 ```
 
-## 📊 Examples
+Show more package details:
 
-### Analyze a single package
 ```bash
-pkg-size analyze react
+pkg-size analyze react --info
 ```
-<details>
-<summary>View Output</summary>
 
-```
-react v18.2.0
-• 143.3 kB minified
-• 45.7 kB gzipped
-• 3 dependencies
-```
-</details>
+See similar packages:
 
-### Get detailed package information
-```bash
-pkg-size analyze lodash --info
-```
-<details>
-<summary>View Output</summary>
-
-```
-lodash v4.17.21
-A modern JavaScript utility library delivering modularity, performance, & extras.
-• License: MIT
-• Downloads: 81,546,121 (last 30 days)
-...
-```
-</details>
-
-### Show version history
-```bash
-pkg-size analyze react --history
-```
-<details>
-<summary>View Output</summary>
-
-```
-react version history:
-• v18.2.0 - Minified: 143.3 kB, Gzipped: 45.7 kB
-• v18.1.0 - Minified: 142.8 kB, Gzipped: 45.4 kB
-...
-```
-</details>
-
-### Analyze dependencies
-```bash
-pkg-size analyze react --dependencies
-```
-<details>
-<summary>View Output</summary>
-
-```
-react dependencies:
-• loose-envify - 3.1 kB
-• object-assign - 2.1 kB
-• prop-types - 15.8 kB
-```
-</details>
-
-### View similar packages
 ```bash
 pkg-size analyze react --similar
 ```
-<details>
-<summary>View Output</summary>
 
-```
-Similar packages:
-• preact v10.13.2 (Size: 11.3 kB minified, 4.3 kB gzipped)
-• inferno v7.4.11 (Size: 11.3 kB minified, 4.3 kB gzipped)
-...
-```
-</details>
+Inspect recent version history:
 
-### Analyze your project dependencies
+```bash
+pkg-size analyze react --history
+```
+
+Analyze dependencies in the current project:
+
 ```bash
 pkg-size deps
 ```
-<details>
-<summary>View Output</summary>
 
-```
-Analyzing 12 packages...
-react v18.2.0 • 143.3 kB minified • 45.7 kB gzipped
-react-dom v18.2.0 • 941.1 kB minified • 148.5 kB gzipped
-...
-Total size: 1.3 MB minified, 230.5 kB gzipped
-```
-</details>
+Include `devDependencies` too:
 
-### Include devDependencies in analysis
 ```bash
 pkg-size deps --all
 ```
 
-## 📋 Command Reference
+## Command Reference
 
-| Command | Usage | Description |
-|---------|-------|-------------|
-| `analyze` | `pkg-size analyze <package> [options]` | Analyze a single package size. Options: `-r` (raw), `-i` (info), `-d` (deps), `-s` (similar), `--history`. |
-| `open` | `pkg-size open <package>` | Open package in browser. |
-| `deps` | `pkg-size deps [options]` | Analyze dependencies in `package.json`. Options: `-a` (include devDeps), `-p <path>`. |
+### `pkg-size analyze <package>`
 
-**General Options**: `-v, --version`, `-h, --help`
+Analyze a single npm package. Works with package names, exact versions, and semver ranges that Bundlephobia understands.
 
-## 🔧 Troubleshooting
+Examples:
 
-- **"Failed to fetch"**: The tool automatically retries. Check your internet if it persists.
-- **Rate Limiting**: We handle 429s automatically. Try smaller batches if issues continue.
-- **Package not found**: Check spelling or try specifying a version (e.g., `package@1.0.0`).
-- **Installation**: Requires Node.js 18+. Try `npm cache clean --force` if stuck.
+```bash
+pkg-size analyze react
+pkg-size analyze react@19.2.0
+pkg-size analyze commander@^14.0.2
+```
 
-## 🤝 Contributing
+Options:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- `-r, --raw`: print the raw Bundlephobia size response as JSON
+- `-i, --info`: show package metadata plus bundle size
+- `-d, --dependencies`: show the package's dependency size breakdown
+- `-s, --similar`: show similar packages and size data when available
+- `--history`: show recent analyzed versions from Bundlephobia
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### `pkg-size open <package>`
 
-## 📝 License
+Open the package's Bundlephobia result page in your default browser.
 
-MIT © [seanwessmith]
+```bash
+pkg-size open react
+```
+
+### `pkg-size deps`
+
+Analyze the dependencies in a `package.json` file and print the heaviest packages first.
+
+Examples:
+
+```bash
+pkg-size deps
+pkg-size deps --all
+pkg-size deps --path ./apps/web/package.json
+pkg-size deps --path ./apps/web
+```
+
+Options:
+
+- `-a, --all`: include `devDependencies`
+- `-p, --path <path>`: path to a `package.json` file or a directory containing one
+
+Notes:
+
+- `@types/*` packages are skipped automatically
+- `workspace:`, `file:`, `link:`, `portal:`, `patch:`, `git:`, `git+`, `github:`, and URL-based dependencies are skipped because they cannot be analyzed reliably through Bundlephobia
+- `npm:` aliases are supported
+
+## Example Output
+
+Single package:
+
+```text
+$ pkg-size analyze react
+
+react v19.2.4
+• 7.4 kB minified
+• 2.9 kB gzipped
+```
+
+Detailed package info:
+
+```text
+$ pkg-size analyze react --info
+
+react v19.2.4
+
+React is a JavaScript library for building user interfaces.
+
+• Bundle size: 7.4 kB minified, 2.9 kB gzipped
+• License: MIT
+• Downloads: 360,786,955 (last 30 days)
+• Homepage: https://react.dev/
+• Repository: https://github.com/facebook/react
+```
+
+Dependency scan:
+
+```text
+$ pkg-size deps
+
+react-dom v19.2.0
+• 16.1 kB minified
+• 5.2 kB gzipped
+
+react v19.2.4
+• 7.4 kB minified
+• 2.9 kB gzipped
+
+✔ 2 packages analyzed, 0 failed, 0 skipped
+Total size: 23.5 kB minified, 8.1 kB gzipped
+```
+
+Actual package versions and sizes change over time. The commands above are the stable part.
+
+## Common Questions
+
+### How do I check npm package size from the terminal?
+
+Use:
+
+```bash
+pkg-size analyze <package-name>
+```
+
+Example:
+
+```bash
+pkg-size analyze lodash
+```
+
+### How do I compare the weight of dependencies in my project?
+
+Run:
+
+```bash
+pkg-size deps
+```
+
+This reads your local `package.json`, queries Bundlephobia for each supported dependency, and prints the largest dependencies first.
+
+### Can I use this in CI?
+
+Yes. Commands now exit with a non-zero status when analysis fails, which makes the tool usable in scripts and automation.
+
+### Can LLMs or coding agents use this?
+
+Yes. The CLI is intentionally simple:
+
+- one package: `pkg-size analyze react`
+- project dependencies: `pkg-size deps`
+- similar alternatives: `pkg-size analyze react --similar`
+- browser fallback: `pkg-size open react`
+
+That makes it easy for an LLM agent to answer prompts like:
+
+- `Find the heaviest dependency in this repo`
+- `Check whether this new package is lightweight`
+- `Suggest smaller alternatives to this dependency`
+
+## Data Sources
+
+The tool uses:
+
+- Bundlephobia for package size, dependency breakdowns, similar packages, and package history
+- npm registry APIs for package metadata and 30-day download counts
+
+An internet connection is required.
+
+## Reliability
+
+- Retries transient failures
+- Uses timeouts for network calls
+- Batches dependency analysis conservatively to avoid API rate limits
+- Falls back gracefully when some similar-package lookups do not return size metadata
+
+## Development
+
+Install dependencies:
+
+```bash
+bun install
+```
+
+Run locally:
+
+```bash
+bun run src/cli.ts analyze react
+```
+
+Build the distributable:
+
+```bash
+bun run build
+```
+
+Run tests:
+
+```bash
+bun test
+```
+
+## Contributing
+
+Issues and pull requests are welcome.
+
+If you want to improve package discovery, output formats, or CI integration, open an issue with a concrete use case.
+
+## License
+
+MIT
