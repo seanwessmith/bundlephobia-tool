@@ -19,7 +19,7 @@
 
     "ansi-regex": ["ansi-regex@6.1.0", "", {}, "sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA=="],
 
-    "bun-types": ["bun-types@1.3.3", "", { "dependencies": { "@types/node": "*" } }, "sha512-z3Xwlg7j2l9JY27x5Qn3Wlyos8YAp0kKRlrePAOjgjMGS5IG6E7Jnlx736vH9UVI4wUICwwhC9anYL++XeOgTQ=="],
+    "bun-types": ["bun-types@1.3.11", "", { "dependencies": { "@types/node": "*" } }, "sha512-1KGPpoxQWl9f6wcZh57LvrPIInQMn2TQ7jsgxqpRzg+l0QPOFvJVH7HmvHo/AiPgwXy+/Thf6Ov3EdVn1vOabg=="],
 
     "bundle-name": ["bundle-name@4.1.0", "", { "dependencies": { "run-applescript": "^7.0.0" } }, "sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q=="],
 
@@ -29,7 +29,7 @@
 
     "cli-spinners": ["cli-spinners@3.3.0", "", {}, "sha512-/+40ljC3ONVnYIttjMWrlL51nItDAbBrq2upN8BPyvGU/2n5Oxw3tbNwORCaNuNqLJnxGqOfjUuhsv7l5Q4IsQ=="],
 
-    "commander": ["commander@14.0.2", "", {}, "sha512-TywoWNNRbhoD0BXs1P3ZEScW8W5iKrnbithIl0YH+uCmBd0QpPOA8yc82DS3BIE5Ma6FnBVUsJ7wVUDz4dvOWQ=="],
+    "commander": ["commander@14.0.3", "", {}, "sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw=="],
 
     "default-browser": ["default-browser@5.4.0", "", { "dependencies": { "bundle-name": "^4.1.0", "default-browser-id": "^5.0.0" } }, "sha512-XDuvSq38Hr1MdN47EDvYtx3U0MTqpCEn+F6ft8z2vYDzMrvQhVp0ui9oQdqW3MvK3vqUETglt1tVGgjLuJ5izg=="],
 
@@ -59,7 +59,7 @@
 
     "open": ["open@11.0.0", "", { "dependencies": { "default-browser": "^5.4.0", "define-lazy-prop": "^3.0.0", "is-in-ssh": "^1.0.0", "is-inside-container": "^1.0.0", "powershell-utils": "^0.1.0", "wsl-utils": "^0.3.0" } }, "sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw=="],
 
-    "ora": ["ora@9.0.0", "", { "dependencies": { "chalk": "^5.6.2", "cli-cursor": "^5.0.0", "cli-spinners": "^3.2.0", "is-interactive": "^2.0.0", "is-unicode-supported": "^2.1.0", "log-symbols": "^7.0.1", "stdin-discarder": "^0.2.2", "string-width": "^8.1.0", "strip-ansi": "^7.1.2" } }, "sha512-m0pg2zscbYgWbqRR6ABga5c3sZdEon7bSgjnlXC64kxtxLOyjRcbbUkLj7HFyy/FTD+P2xdBWu8snGhYI0jc4A=="],
+    "ora": ["ora@9.3.0", "", { "dependencies": { "chalk": "^5.6.2", "cli-cursor": "^5.0.0", "cli-spinners": "^3.2.0", "is-interactive": "^2.0.0", "is-unicode-supported": "^2.1.0", "log-symbols": "^7.0.1", "stdin-discarder": "^0.3.1", "string-width": "^8.1.0" } }, "sha512-lBX72MWFduWEf7v7uWf5DHp9Jn5BI8bNPGuFgtXMmr2uDz2Gz2749y3am3agSDdkhHPHYmmxEGSKH85ZLGzgXw=="],
 
     "powershell-utils": ["powershell-utils@0.1.0", "", {}, "sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A=="],
 
@@ -69,7 +69,7 @@
 
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
-    "stdin-discarder": ["stdin-discarder@0.2.2", "", {}, "sha512-UhDfHmA92YAlNnCfhmq0VeNL5bDbiZGg7sZ2IvPsXubGkiNa9EC+tUTsjBRsYUAz87btI6/1wf4XoVvQ3uRnmQ=="],
+    "stdin-discarder": ["stdin-discarder@0.3.1", "", {}, "sha512-reExS1kSGoElkextOcPkel4NE99S0BWxjUHQeDFnR8S993JxpPX7KU4MNmO19NXhlJp+8dmdCbKQVNgLJh2teA=="],
 
     "string-width": ["string-width@8.1.0", "", { "dependencies": { "get-east-asian-width": "^1.3.0", "strip-ansi": "^7.1.0" } }, "sha512-Kxl3KJGb/gxkaUMOjRsQ8IrXiGW75O4E3RPjFIINOVH8AMl2SQ/yWdTzWwF3FevIX9LcMAjJW+GRwAlAbTSXdg=="],
 

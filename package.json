@@ -52,11 +52,11 @@
     "prepublishOnly": "bun test && bun run build"
   },
   "dependencies": {
-    "ora": "^9.0.0",
-    "commander": "^14.0.2",
+    "ora": "^9.3.0",
+    "commander": "^14.0.3",
     "open": "^11.0.0"
   },
   "devDependencies": {
-    "bun-types": "1.3.3"
+    "bun-types": "1.3.11"
   }
 }
