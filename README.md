@@ -6,6 +6,8 @@
 
 `bundlephobia-tool` is a CLI for checking npm package bundle size, gzip size, dependency weight, version history, and similar packages from the terminal.
 
+**Status:** Maintained public CLI. The repository and npm package are both at the verified `1.3.6` release.
+
 If you have ever searched for:
 
 - `bundlephobia cli`
@@ -291,6 +293,8 @@ Run tests:
 
 ```bash
 bun test
+bun run build
+bun run dist/cli.js --help
 ```
 
 ## Contributing
